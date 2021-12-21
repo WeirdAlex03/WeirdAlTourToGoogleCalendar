@@ -1,0 +1,28 @@
+{
+  "name": "weirdaltourtogooglecalendar",
+  "version": "1.0.0",
+  "description": "Pulls tour dates from \"Weird Al\" Yankovic's website and uploads it to Google Calendar",
+  "main": "src/uploadToGCal.js",
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint src/ test/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WeirdAlex03/WeirdAlTourToGoogleCalendar.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/WeirdAlex03/WeirdAlTourToGoogleCalendar/issues"
+  },
+  "homepage": "https://github.com/WeirdAlex03/WeirdAlTourToGoogleCalendar#readme",
+  "dependencies": {
+    "googleapis": "^92.0.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.0.3",
+    "eslint": "^8.5.0",
+    "jest": "^27.4.5"
+  }
+}

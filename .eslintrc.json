@@ -1,0 +1,232 @@
+{
+    "env": {
+        "es2021": true,
+        "node": true
+    },
+    "extends": "eslint:all",
+    "parserOptions": {
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "reportUnusedDisableDirectives": true,
+    "rules": {
+        "consistent-return": [
+            "error",
+            { "treatUndefinedAsUnspecified": true }
+        ],
+        "linebreak-style": [
+            "error",
+            "windows"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
+        "func-style": [
+            "error",
+            "declaration"
+        ],
+        "no-void": [
+            "error",
+            { "allowAsStatement": true }
+        ],
+        "id-length": [
+            "error",
+            { "exceptions": ["e", "i", "j", "k"] }
+        ],
+        "no-use-before-define": [
+            "error",
+            { "functions": false }
+        ],
+        "no-unused-vars": [
+            "error",
+            {
+                "vars": "local",
+                "args": "none"
+            }
+        ],
+        "no-magic-numbers": [
+            "error",
+            {
+                "ignore": [
+                    // Common numbers
+                    0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+                    // Factors of 10
+                    10, 100, 1000, 10000, 100000, 1000000, 10000000,
+                    // Time units
+                    24, 60, 60000,
+                    // HTTP ports
+                    80, 8008, 8080,
+                    // Common HTTP response codes
+                    200, 201, 202, 400, 401, 403, 404, 429, 500, 501, 503
+                ],
+                "ignoreArrayIndexes": true,
+                "ignoreDefaultValues": true
+            }
+        ],
+        
+        "spaced-comment": "warn",
+        "key-spacing": "warn",
+        "no-multi-spaces": "warn",
+        "no-useless-concat": "warn",
+        "space-infix-ops": "warn",
+        "space-in-parens": "warn",
+        "keyword-spacing": "warn",
+        "multiline-comment-style": "warn",
+        "arrow-parens": "warn",
+        "prefer-const": "warn",
+        "eqeqeq": "warn",
+        "new-cap": "warn",
+        "sort-vars": "warn",
+        "sort-imports": "warn",
+        "semi-spacing": "warn",
+        "comma-spacing": "warn",
+        "eol-last": "warn",
+        "camelcase": [
+            "warn",
+            {
+                "ignoreImports": true,
+                "ignoreDestructuring": true
+            }
+        ],
+        "indent": [
+            "warn",
+            "tab"
+        ],
+        "dot-location": [
+            "warn",
+            "property"
+        ],
+        "no-mixed-spaces-and-tabs": [
+            "warn",
+            "smart-tabs"
+        ],
+        "operator-linebreak": [
+            "warn",
+            "before"
+        ],
+        "object-curly-spacing": [
+            "warn",
+            "always"
+        ],
+        "multiline-ternary": [
+            "warn",
+            "always-multiline"
+        ],
+        "comma-dangle": [
+            "warn",
+            "only-multiline"
+        ],
+        "array-element-newline": [
+            "warn",
+            "consistent"
+        ],
+        "array-bracket-spacing": [
+            "warn",
+            "never"
+        ],
+        "object-shorthand"  : [
+            "warn",
+            "consistent-as-needed"
+        ],
+        "newline-per-chained-call": [
+            "warn",
+            { "ignoreChainWithDepth": 3 }
+        ],
+        "array-bracket-newline": [
+            "warn",
+            { "multiline": true }
+        ],
+        "no-tabs": [
+            "warn",
+            { "allowIndentationTabs": true }
+        ],
+        "no-trailing-spaces": [
+            "warn",
+            { "ignoreComments": true }
+        ],
+        "curly": [
+            "warn",
+            "multi-line",
+            "consistent"
+        ],
+        "capitalized-comments": [
+            "warn",
+            "always",
+            { "ignorePattern": "lgtm|cspell" }
+        ],
+        "brace-style": [
+            "warn",
+            "1tbs",
+            { "allowSingleLine": true }
+        ],
+        "quote-props": [
+            "warn",
+            "consistent-as-needed",
+            { "keywords": true }
+        ],
+        "quotes": [
+            "warn",
+            "double",
+            { "avoidEscape": true }
+        ],
+        "one-var": [
+            "warn",
+            {
+                "initialized": "never",
+                "uninitialized": "consecutive"
+            }
+        ],
+        "space-before-function-paren": [
+            "warn",
+            {
+                "anonymous": "never",
+                "named": "never",
+                "asyncArrow": "always"
+            }
+        ],
+        "max-len": [
+            "warn",
+            {
+                "code": 120,
+                "comments": 80,
+                "tabWidth": 4,
+                "ignoreUrls": true,
+                "ignoreRegExpLiterals": true,
+                "ignoreTrailingComments": true
+            }
+        ],
+        "lines-around-comment": [
+            "warn",
+            {
+                "beforeBlockComment": true,
+                "beforeLineComment": false,
+                "allowBlockStart": true,
+                "allowClassStart": true,
+                "allowObjectStart": true,
+                "allowArrayStart": true
+            }
+        ],
+        
+        "prefer-template": "off",
+        "init-declarations": "off",
+        "no-var": "off",
+        "no-else-return": "off",
+        "no-ternary": "off",
+        "no-console": "off",
+        "no-plusplus": "off",
+        "no-inline-comments": "off",
+        "line-comment-position": "off",
+        "object-property-newline": "off",
+        "sort-keys": "off",
+        "function-call-argument-newline": "off",
+        "padded-blocks": "off",
+        "max-params": "off",
+        "vars-on-top": "off",
+        "max-statements": "off",
+        "max-lines-per-function": "off",
+        "no-extra-parens": "off",
+        "guard-for-in": "off",
+        "strict": "off"
+    }
+}

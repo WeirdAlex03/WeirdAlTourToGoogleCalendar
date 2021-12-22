@@ -31,7 +31,7 @@ for (let i = 1; i < dates.length; i++) {
 	// Skip first entry, it's the header
 
 	/** @type {HTMLCollection} */
-	const data = dates[i].children;
+	const data = dates[i].children
 
 	const date = data[0].innerText;
 	const city = data[1].innerText;

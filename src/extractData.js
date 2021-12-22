@@ -34,7 +34,7 @@ for (let i = 1; i < dates.length; i++) {
 	const data = dates[i].children;
 
 	const date = data[0].innerText;
-	const city = data[1].innerText;
+	const city = data[1].innerText + "wrong!";
 	const venue = data[2].innerText;
 	let info = data[3].children[0].href;
 

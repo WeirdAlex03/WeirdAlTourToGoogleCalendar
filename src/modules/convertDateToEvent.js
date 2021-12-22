@@ -24,7 +24,7 @@ function convertDateToEvent(date) {
 	date.city = toTitleCase(date.city.substr(0, date.city.indexOf(",")))
 	            + date.city.substring(date.city.indexOf(","));
 	date.venue = toTitleCase(date.venue);
-	date.date = new Date(date.date + " 2022").toISOString().substring(0, 10); // Convert to ISO String and remove time
+	date.date = new Date(date.date + " 2022").toISOString(); // Convert to ISO String and remove time
 	if (!date.info) {
 		// If there is no info link, set the description to a placeholder
 		date.info = "Ticket link coming soon";

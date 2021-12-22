@@ -14,10 +14,6 @@
             "error",
             { "treatUndefinedAsUnspecified": true }
         ],
-        "linebreak-style": [
-            "error",
-            "windows"
-        ],
         "semi": [
             "error",
             "always"
@@ -227,6 +223,7 @@
         "max-lines-per-function": "off",
         "no-extra-parens": "off",
         "guard-for-in": "off",
-        "strict": "off"
+        "strict": "off",
+        "linebreak-style": "off"
     }
 }

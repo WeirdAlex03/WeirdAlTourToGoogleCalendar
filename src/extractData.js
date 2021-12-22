@@ -31,20 +31,12 @@ for (let i = 1; i < dates.length; i++) {
 	// Skip first entry, it's the header
 
 	/** @type {HTMLCollection} */
-	const data = dates[i].children
+	const data = dates[i].children;
 
 	const date = data[0].innerText;
 	const city = data[1].innerText;
 	const venue = data[2].innerText;
-	let info;
-
-	if (data[3].children[0].innerText === "COMING SOON") {
-		info = null;
-		console.warn("Tickets for show #" + i + ", on " + date + " in " + city
-					+ " at " + venue + ", are not yet released.");
-	} else {
-		info = data[3].children[0].href;
-	}
+	let info = data[3].children[0].href;
 
 	dataArray.push(new TourDate(date, city, venue, info));
 }

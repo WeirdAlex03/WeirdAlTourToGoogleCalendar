@@ -39,24 +39,6 @@ describe("convertDateToEvent", () => {
 
 		expect(convertDateToEvent(input)).toEqual(expected);
 	});
-
-	test("\"New\" badge", () => {
-		const input = {
-			date: "NEW\nJULY 30",
-			city: "OTTAWA, ON",
-			venue: "TO BE ANNOUNCED",
-			info: "https://nac-cna.ca/en/event/30099"
-		};
-		const expected = {
-			summary: "Ottawa, ON",
-			location: "To Be Announced, Ottawa, ON",
-			description: "https://nac-cna.ca/en/event/30099",
-			start: { date: "2022-07-30" },
-			end: { date: "2022-07-30" }
-		};
-
-		expect(convertDateToEvent(input)).toEqual(expected);
-	});
 });
 
 describe("toTitleCase", () => {

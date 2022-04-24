@@ -133,10 +133,6 @@
             "warn",
             { "multiline": true }
         ],
-        "no-tabs": [
-            "warn",
-            { "allowIndentationTabs": true }
-        ],
         "no-trailing-spaces": [
             "warn",
             { "ignoreComments": true }
@@ -209,6 +205,7 @@
         "no-var": "off",
         "no-else-return": "off",
         "no-ternary": "off",
+        "no-tabs": "off",
         "no-console": "off",
         "no-plusplus": "off",
         "no-inline-comments": "off",

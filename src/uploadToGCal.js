@@ -1,6 +1,6 @@
 const { readFile, writeFile } = require("fs");
 const { createInterface } = require("readline");
-const { google } = require("googleapis");
+const { google, calendar_v3 } = require("googleapis");
 const { convertDateToEvent } = require("./modules/convertDateToEvent.js");
 const TourDate = require("./modules/TourDate.js"); // eslint-disable-line no-unused-vars -- Used only in documentation.
 
@@ -157,9 +157,19 @@ function buildEvents(auth) {
  *        Array of calendar events ready for use with `calendar.events.insert`
  */
 function addEvents(auth, events) {
-	for (const event of events) {
-		addEvent(auth, event);
-	}
+	const calendar = google.calendar({ version: "v3", auth: auth });
+
+	calendar.events.list({
+		auth: auth,
+		calendarId: CALENDAR_ID,
+	}).then((res) => {
+		for (const event of events) {
+			addEvent(auth, event, res.data.items);
+		}
+	}).catch((err) => {
+		console.error("Error getting existing events: " + err.code + ": " + err.message);
+		console.error("No events will be added.");
+	});
 }
 
 /**
@@ -172,11 +182,21 @@ function addEvents(auth, events) {
  * @param {google.auth.OAuth2} auth - The OAuth2 client to create events with.
  * @param {calendar_v3.Params$Resource$Events$Insert} event -
  *        Single calendar event ready for use with `calendar.events.insert`
+ * @param {Array<calendar_v3.Schema$Event>} existingEvents -
+ *        Array of existing events in the calendar
  * @param {int} [timeouts=0] - Number of times the request got rate limited
  * 
- * @todo Check if the event already exists, and update it instead of duplicating
+ * @todo - Does not handle changed dates or cancelled shows. The calendar can
+ *         have other events so they can't just be deleted. Maybe print a
+ *         warning to the console for events within the earliest and latest
+ *         shows, plus a few days in either direction, for manual review?
+ * 
+ * @todo - KNOWN ISSUE: Some events existing events are not properly recognized.
+ *         This appears to be deterministic, but it's not clear why. Events with
+ *         new/sold out tags and without are both affected. More investigation
+ *         is needed.
  */
-function addEvent(auth, event, timeouts = 0) {
+function addEvent(auth, event, existingEvents, timeouts = 0) {
 	if (timeouts > 10) {
 		// Give up after 10 attempts
 		console.error("Too many timeouts, giving up on event: ", event);
@@ -187,20 +207,54 @@ function addEvent(auth, event, timeouts = 0) {
 
 	const calendar = google.calendar({ version: "v3", auth: auth });
 
-	calendar.events.insert({
-		auth: auth,
-		calendarId: CALENDAR_ID,
-		resource: event,
-	}, (err) => {
-		if (err) {
-			if (err.message === "Rate Limit Exceeded") {
-				setTimeout(() => {
-					addEvent(auth, event, timeouts + 1);
-				}, Math.min((((2 ** timeouts) * 1000) + (Math.random() * 1000)), MAX_BACKOFF));
-				// 2^n seconds + random ms, up to 1 minute, see https://cloud.google.com/storage/docs/retry-strategy#exponential-backoff
-			} else {
-				console.error("There was an error uploading an event: " + err.code + " " + err.message + "\n" + event);
-			}
+	const currentEvent = existingEvents.find((existingEvent) => (
+		existingEvent.start.date === event.start.date));
+
+	if (currentEvent) {
+		// Compare the event to the existing event
+		if (
+			currentEvent.summary !== event.summary
+			|| currentEvent.description !== event.description
+			|| currentEvent.location !== event.location
+		) {
+			// If the event is different, update it
+			calendar.events.update({
+				auth: auth,
+				calendarId: CALENDAR_ID,
+				eventId: currentEvent.id,
+				resource: event,
+			}, (err) => {
+				if (err) {
+					if (err.message === "Rate Limit Exceeded") {
+						setTimeout(() => {
+							addEvent(auth, event, existingEvents, timeouts + 1);
+						}, Math.min((((2 ** timeouts) * 1000) + (Math.random() * 1000)), MAX_BACKOFF));
+						// 2^n seconds + random ms, up to 1 minute, see https://cloud.google.com/storage/docs/retry-strategy#exponential-backoff
+					} else {
+						console.error("There was an error uploading an event: " + err.code
+							+ ": " + err.message + "\n" + event);
+					}
+				}
+			});
 		}
-	});
+	} else {
+		// If the event doesn't exist, create it
+		calendar.events.insert({
+			auth: auth,
+			calendarId: CALENDAR_ID,
+			resource: event,
+		}, (err) => {
+			if (err) {
+				if (err.message === "Rate Limit Exceeded") {
+					setTimeout(() => {
+						addEvent(auth, event, existingEvents, timeouts + 1);
+					}, Math.min((((2 ** timeouts) * 1000) + (Math.random() * 1000)), MAX_BACKOFF));
+					// 2^n seconds + random ms, up to 1 minute, see https://cloud.google.com/storage/docs/retry-strategy#exponential-backoff
+				} else {
+					console.error("There was an error uploading an event: " + err.code
+						+ ": " + err.message + "\n" + event);
+				}
+			}
+		});
+	}
 }

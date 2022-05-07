@@ -67,14 +67,15 @@ function convertDateToEvent(date) {
 /**
  * Converts a string to Title Case.
  * 
- * This was entirely written by GitHub Copilot and I don't really understand it,
- * but it wrote tests and it works, so I'm not going to touch it.
+ * Matches all words in the given string, and capitalizes the first letter.
+ * Alphanumeric and underscore characters count as words, any other characters
+ * make a new word.
  * 
  * @param {string} str The string to convert
  * @returns {string} The String In Title Case
  */
 function toTitleCase(str) {
-	return str.replace(/\w\S*/gu, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
+	return str.replace(/\w+/gu, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
 }
 
 module.exports = { convertDateToEvent, toTitleCase };
